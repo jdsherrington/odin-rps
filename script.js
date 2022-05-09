@@ -1,6 +1,8 @@
+// Creates scoring system across multiple rounds
 let playerScore = 0,
     computerScore = 0;
 
+// Takes in player input and a randomly generated input and outputs the proper outcome for the user
 function playRound(playerSelection, computerSelection) {
     let outcome;
     if (playerSelection == "rock") {
@@ -33,6 +35,7 @@ function playRound(playerSelection, computerSelection) {
     return outcome;
 };
 
+// Generates a random number between 1 and 3, then assigns either rock paper or scissors depending on the number generated
 let computerChoice = function() {
     let choice,
         choiceNum = Math.floor(Math.random() * 3 ) + 1;
@@ -50,6 +53,10 @@ let computerChoice = function() {
     return choice;
 };
 
+// Allows player to decide the total number of rounds to play, then prompts the player for input in each round.
+// This input is fed into a function that generates a win/lose/draw outcome, which is then used to generate a message
+// conveying the result of the round and advising the current scores. This process is repeated until all rounds are completed,
+// at which point the final scores are provided as well as a success/failure/draw message for the overall game.
 function playGame() {
     let playerSelection,
         computerSelection,
