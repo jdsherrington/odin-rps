@@ -1,10 +1,19 @@
-// Creates scoring system across multiple rounds
-let playerScore = 0,
-    computerScore = 0;
+const playBtn = document.querySelectorAll('.playBtn'),
+      results = document.querySelector('#results');
+let   round = 0,
+      playerScore = 0,
+      computerScore = 0;
+
+playBtn.forEach((playBtn) => {
+    playBtn.addEventListener('click', () => {
+        playRound(playBtn.id, computerChoice());
+    });
+});
 
 // Takes in player input and a randomly generated input and outputs the proper outcome for the user
 function playRound(playerSelection, computerSelection) {
-    let outcome;
+    let outcome,
+        outcomeMsg;
     if (playerSelection == "rock") {
         if (computerSelection == "rock") {
                 outcome = "Draw";
@@ -32,7 +41,33 @@ function playRound(playerSelection, computerSelection) {
     } else {
         alert("Invalid input, please try again");
     }
-    return outcome;
+    switch(outcome) {
+        case "You Win":
+            playerScore++;
+            round++;
+            outcomeMsg = `<br>${outcome}! ${playerSelection.charAt(0).toUpperCase()+playerSelection.slice(1)} beats ${computerSelection}!<br>`;
+            break;
+        case "You Lose":
+            computerScore++;
+            round++;
+            outcomeMsg = `<br>${outcome}! ${computerSelection.charAt(0).toUpperCase()+computerSelection.slice(1)} beats ${playerSelection}!<br>`;
+            break;
+        case "Draw":
+            round++;
+            outcomeMsg =`<br>${outcome}! ${playerSelection.charAt(0).toUpperCase()+playerSelection.slice(1)} is equal to ${computerSelection}!<br>`;
+            break;
+        default:
+            alert("No outcome");
+            break;
+    };
+    let roundTitle = `<strong>ROUND ${round}</strong>`,
+        scoreBoard = `<br><strong>Your Score:</strong> ${playerScore}<br>` + `<strong>Computer Score:</strong> ${computerScore}<br>`,
+        divider = `________________________________`,
+        outcomeText = roundTitle + outcomeMsg + scoreBoard + divider;
+    const resultsText = document.createElement('p');
+    resultsText.classList.add('resultsText');
+    resultsText.innerHTML = outcomeText;
+    results.appendChild(resultsText);
 };
 
 // Generates a random number between 1 and 3, then assigns either rock paper or scissors depending on the number generated
@@ -57,10 +92,12 @@ let computerChoice = function() {
 // This input is fed into a function that generates a win/lose/draw outcome, which is then used to generate a message
 // conveying the result of the round and advising the current scores. This process is repeated until all rounds are completed,
 // at which point the final scores are provided as well as a success/failure/draw message for the overall game.
-function playGame() {
+/* function playGame() {
     let playerSelection,
         computerSelection,
         outcomeMsg,
+        playerScore = 0,
+        computerScore = 0,
         rounds = parseInt(prompt("How many rounds do you want to play?"));
     for (i = 1; i <= rounds; i++) {
         playerSelection = prompt("Rock, Paper, or Scissors?").toLowerCase();
@@ -99,6 +136,6 @@ function playGame() {
     } else {
         console.log("It's a draw... Best two out of three?");
     }
-}
+} */
 
-playGame();
+
